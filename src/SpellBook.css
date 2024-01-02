@@ -1,0 +1,25 @@
+.spellbook {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 200px;
+  height: 100vh;
+  background-color: #f0f0f0;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.spellbook h2 {
+  text-align: center;
+}
+
+.spell-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.spell-button {
+  margin: 10px 0;
+}

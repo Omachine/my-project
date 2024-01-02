@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Player from "./Player";
+import Spellbook from "./SpellBook";
+import "./App.css";
+import Stats from "./Stats";
 
 function App() {
+  const [health, setHealth] = useState(100);
+  const [mana, setMana] = useState(90); // adjust the initial value as needed
+
+  const castSpell = () => {
+    setMana((prevMana) => prevMana - 10);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <div className="canvas">
+        <Stats health={health} mana={mana} className="stats" />
+        <Player className="player" />
+      </div>
+      <Spellbook castSpell={castSpell} />
     </div>
   );
 }

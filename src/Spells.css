@@ -1,0 +1,34 @@
+.spell-button {
+  width: 100px; /* adjust as needed */
+  height: 50px; /* adjust as needed */
+  margin: 10px 0;
+  color: white; /* adjust as needed */
+  font-weight: bold;
+  border-radius: 25px; /* adjust as needed */
+}
+
+.spell-button-fire {
+  background-color: red;
+}
+
+.spell-button-ice {
+  background-color: blue;
+}
+
+.spell-button-wind {
+  background-color: green;
+}
+
+.spell-button-earth {
+  background-color: brown;
+}
+.random-circle {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  border-radius: 50%;
+}

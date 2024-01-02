@@ -1,0 +1,5 @@
+/* Player.css */
+.player-avatar img {
+  position: absolute;
+  transition: top 0.2s, left 0.2s; /* Adjust duration as needed */
+}
