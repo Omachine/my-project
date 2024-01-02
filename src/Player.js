@@ -1,52 +1,50 @@
-// Player.js
-import React, { useState, useEffect } from "react";
-import "./Player.css";
-import Stats from "./Stats";
+import React, { useEffect, useState } from "react";
 
-function Player(props) {
-  const [position, setPosition] = useState({ x: 0, y: 300 }); // initial position
-  const [facingRight, setFacingRight] = useState(true);
+function Player({ position, setPosition }) {
   const [key, setKey] = useState(null);
+  const [facingRight, setFacingRight] = useState(true);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
       setKey(event.key);
+      // update player position based on key press
+      if (event.key === "ArrowRight" || event.key === "d") {
+        setPosition((prevPosition) => ({
+          ...prevPosition,
+          x: prevPosition.x + 10,
+        }));
+        setFacingRight(false);
+      } else if (event.key === "ArrowLeft" || event.key === "a") {
+        setPosition((prevPosition) => ({
+          ...prevPosition,
+          x: prevPosition.x - 10,
+        }));
+        setFacingRight(true);
+      } else if (event.key === "ArrowUp" || event.key === "w") {
+        setPosition((prevPosition) => ({
+          ...prevPosition,
+          y: prevPosition.y - 10,
+        }));
+      } else if (event.key === "ArrowDown" || event.key === "s") {
+        setPosition((prevPosition) => ({
+          ...prevPosition,
+          y: prevPosition.y + 10,
+        }));
+      }
     };
 
-    const handleKeyUp = (event) => {
+    const handleKeyUp = () => {
       setKey(null);
     };
 
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
 
-    const interval = setInterval(() => {
-      switch (key) {
-        case "w":
-          setPosition((pos) => ({ ...pos, y: pos.y - 10 }));
-          break;
-        case "s":
-          setPosition((pos) => ({ ...pos, y: pos.y + 10 }));
-          break;
-        case "a":
-          setPosition((pos) => ({ ...pos, x: pos.x - 10 }));
-          setFacingRight(true); // changed to true
-          break;
-        case "d":
-          setPosition((pos) => ({ ...pos, x: pos.x + 10 }));
-          setFacingRight(false); // changed to false
-          break;
-        default:
-          break;
-      }
-    }, 50);
-
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
-      clearInterval(interval);
     };
-  }, [key]);
+  }, [setPosition]);
 
   return (
     <div
@@ -59,15 +57,15 @@ function Player(props) {
       }}
     >
       <img
-        src={process.env.PUBLIC_URL + "/Pixel-mage.gif"} // ensure the path is correct
+        src={process.env.PUBLIC_URL + "/Pixel-mage.gif"}
         alt="Player avatar"
         style={{
-          width: "128px", // increase the size
-          height: "128px", // increase the size
+          width: "128px",
+          height: "128px",
         }}
       />
-      <Stats health={props.health} score={props.score} />
     </div>
   );
 }
+
 export default Player;

@@ -3,6 +3,7 @@
   justify-content: space-between;
 }
 .canvas {
+  position: relative;
   width: 1300px; /* Adjust as needed */
   height: 710px; /* Adjust as needed */
   background-color: lightblue;

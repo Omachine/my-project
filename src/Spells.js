@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import "./Spells.css";
 
-function Spells({ castSpell }) {
+function Spells({ mana, setMana, setActiveSpells, castSpell }) {
   // Destructure castSpell from the props object here
   const spells = ["Fire", "Ice", "Wind", "Earth"];
-  const [activeSpells, setActiveSpells] = useState([]);
 
   const shootSpell = (spell, color) => {
     const newSpell = { type: spell, color: color };
@@ -19,7 +18,13 @@ function Spells({ castSpell }) {
         <button
           key={index}
           className={`spell-button spell-button-${spell.toLowerCase()}`}
-          onClick={() => shootSpell(spell, spell.toLowerCase())}
+          onClick={() => {
+            if (mana >= 10) {
+              // check if there's enough mana to cast the spell
+              shootSpell(spell, spell.toLowerCase());
+              setMana(mana - 10); // reduce the mana by 10
+            }
+          }}
           onBlur={() => window.focus()}
         >
           {spell}
