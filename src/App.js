@@ -1,88 +1,84 @@
-import React, { useState, useEffect } from "react";
-import ManaPotion from "./ManaPotion";
-import SpellBook from "./SpellBook";
-import Inventory from "./Inventory";
-import Player from "./Player";
-import Stats from "./Stats";
-import "./App.css";
+import { useEffect, useState } from 'react'
+import './App.css'
+import Game from './Game'
+import { Auth, SignOut } from './components/auth'
+import { db, auth } from './config/firebase'
+import {
+  getDocs,
+  collection,
+  addDoc,
+  serverTimestamp,
+  query,
+  orderBy,
+  limit
+} from 'firebase/firestore'
 
-function App() {
-  const [playerPosition, setPlayerPosition] = useState({ x: 0, y: 300 }); // add a state variable for the player's position
-  const [inventory, setInventory] = useState({ manaPotion: 0 });
-  const [activeSpells, setActiveSpells] = useState([]);
-  const [health, setHealth] = useState(100);
-  const [mana, setMana] = useState(120); // adjust the initial value as needed
-  const [manaPotions, setManaPotions] = useState(
-    Array(3)
-      .fill()
-      .map(() => ({ x: Math.random() * 500, y: Math.random() * 500 }))
-  );
-  const castSpell = () => {
-    setMana((prevMana) => prevMana - 10);
-  };
-  const collectItem = (item) => {
-    setInventory((prevInventory) => ({
-      ...prevInventory,
-      [item]: prevInventory[item] + 1,
-    }));
-  };
-  const useItem = (item) => {
-    if (item === "manaPotion" && inventory.manaPotion > 0 && mana < 120) {
-      setMana(120); // set mana back to 120
-      setInventory((prevInventory) => ({
-        ...prevInventory,
-        manaPotion: prevInventory.manaPotion - 1, // decrease the number of mana potions
-      }));
+export default function App() {
+  const [messages, setMessages] = useState([])
+
+  // New message State
+  const [newMessageText, setNewMessageText] = useState('')
+
+  const messagesRef = collection(db, 'messages')
+
+  const messageQuery = query(messagesRef, orderBy('sentAt'), limit(15))
+
+  const getMessages = async () => {
+    // Read the data
+    // Set Messages list
+    try {
+      const data = await getDocs(messageQuery)
+      const filteredData = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }))
+      setMessages(filteredData)
+    } catch (error) {
+      console.log(error)
     }
-  };
+  }
 
   useEffect(() => {
-    console.log("Player position:", playerPosition);
-    console.log("Potion positions:", manaPotions);
-    const collidedPotionIndex = manaPotions.findIndex(
-      (potion) =>
-        Math.abs(potion.x - playerPosition.x) < 75 &&
-        Math.abs(potion.y - playerPosition.y) < 75
-    );
+    getMessages()
+  }, [])
 
-    if (collidedPotionIndex !== -1) {
-      collectItem("manaPotion");
-      setManaPotions(
-        manaPotions.filter((potion, index) => index !== collidedPotionIndex)
-      );
+  const onMessageSent = async () => {
+    try {
+      await addDoc(messagesRef, {
+        text: newMessageText,
+        sentAt: serverTimestamp(),
+        user: auth ? auth.currentUser.displayName : 'A random guy',
+      })
+
+      getMessages()
+    } catch (error) {
+      console.log(error)
     }
-  }, [playerPosition, manaPotions]);
+  }
+
+  // return <>{user ? <Game></Game> : <SignIn></SignIn>}</>
   return (
-    <div className="app">
-      <div className="canvas">
-        {manaPotions.map((manaPotion, index) => (
-          <ManaPotion
-            key={index}
-            style={{
-              position: "absolute",
-              left: `${manaPotion.x}px`,
-              top: `${manaPotion.y}px`,
-            }}
-          />
-        ))}
-        <Inventory inventory={inventory} UseItem={useItem} />
-        <Stats health={health} mana={mana} className="stats" />
+    <div>
+      <Auth />
 
-        <Player
-          className="player"
-          position={playerPosition}
-          setPosition={setPlayerPosition}
-          collectItem={collectItem}
+      <div>
+        <input
+          placeholder="message..."
+          onChange={(e) => setNewMessageText(e.target.value)}
         />
+        <button onClick={onMessageSent}>send</button>
       </div>
-      <SpellBook
-        setActiveSpells={setActiveSpells}
-        mana={mana}
-        setMana={setMana}
-        castSpell={castSpell}
-      />
-    </div>
-  );
-}
 
-export default App;
+      <div className="chat">
+        <h2>Chat</h2>
+        {messages.map((message) => (
+          <div>
+            <p>
+              <b>{message.user}:</b> {message.text}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
