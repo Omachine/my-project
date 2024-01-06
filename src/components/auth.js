@@ -1,3 +1,4 @@
+import '../styles/auth.css'
 import { auth, googleProvider } from '../config/firebase'
 import { signInWithPopup, signOut } from 'firebase/auth'
 
@@ -18,12 +19,14 @@ export const Auth = () => {
   }
 
   return (
-    <div className="center">
+    <div className="cool-div-idk-what-to-call">
       <button className="btn" onClick={signIn}>
         Sign in with Google
       </button>
 
-      <button className="btn" onClick={logout}>Logout</button>
+      <button className="btn" onClick={logout}>
+        Logout
+      </button>
     </div>
   )
 }
