@@ -1,0 +1,48 @@
+.chat-room {
+  width: 30rem;
+  font-family: sans-serif;
+  padding: 1rem;
+  background-color: #222;
+  color: #eee;
+  opacity: 0.95;
+  border-radius: 0.3rem;
+	box-shadow: 0 0 1rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+.messages {
+  margin-bottom: 0.8rem;
+}
+
+.messages h2 {
+  margin-bottom: 0.8rem;
+}
+
+.messages > div {
+	margin: .3rem 0;
+}
+
+.send-message {
+  width: 100%;
+  position: relative;
+}
+
+.send-message input {
+  border: none;
+  padding: 0.4rem 0.6rem;
+  width: 60%;
+  border-radius: 0.2rem;
+}
+
+.send-message button {
+  position: absolute;
+  right: 0;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  font-weight: bold;
+  border-radius: 0.2rem;
+}
+
+.send-message button:hover {
+  cursor: pointer;
+  background-color: gray;
+}
