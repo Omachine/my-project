@@ -17,19 +17,9 @@ function Game() {
   const [manaPotions, setManaPotions] = useState(
     Array(3)
       .fill()
-      .map(() => ({
-        x: Math.random() * window.innerWidth * 0.85,
-        y: Math.random() * window.innerHeight * 0.95,
-      }))
+      .map(() => ({ x: Math.random() * 1000, y: Math.random() * 1000 }))
   );
-  const [experienceBalls, setExperienceBalls] = useState(
-    Array(3)
-      .fill()
-      .map(() => ({
-        x: Math.random() * window.innerWidth * 0.85,
-        y: Math.random() * window.innerHeight * 0.95,
-      }))
-  );
+  const [experienceBalls, setExperienceBalls] = useState([]);
   const castSpell = () => {
     setMana((prevMana) => prevMana - 10);
   };
