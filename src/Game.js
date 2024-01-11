@@ -57,7 +57,7 @@ function Game() {
         ...prevExperienceBalls,
         { x: Math.random() * 1000, y: Math.random() * 1000 },
       ]);
-    }, 1000); // 10000 milliseconds = 10 seconds
+    }, 15000); // 10000 milliseconds = 10 seconds
     const collidedPotionIndex = manaPotions.findIndex(
       (potion) =>
         Math.abs(potion.x - 30 - playerPosition.x) < 75 &&
