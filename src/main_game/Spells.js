@@ -38,3 +38,5 @@ function Spells({ mana, setMana, setActiveSpells, castSpell }) {
 }
 
 export default Spells;
+
+

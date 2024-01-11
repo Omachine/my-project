@@ -5,6 +5,7 @@ import Inventory from "./main_game/Inventory";
 import Player from "./main_game/Player";
 import Stats from "./main_game/Stats";
 import ExperienceBall from "./ExperienceBall";
+import FireBall from './fireBall';
 
 function Game() {
   const [playerPosition, setPlayerPosition] = useState({ x: 0, y: 300 }); // add a state variable for the player's position
@@ -128,6 +129,7 @@ function Game() {
         castSpell={castSpell}
       />
     </div>
+    
   );
 }
 
