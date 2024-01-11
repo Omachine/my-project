@@ -4,6 +4,7 @@ import SpellBook from "./main_game/SpellBook";
 import Inventory from "./main_game/Inventory";
 import Player from "./main_game/Player";
 import Stats from "./main_game/Stats";
+import ExperienceBall from "./ExperienceBall";
 
 function Game() {
   const [playerPosition, setPlayerPosition] = useState({ x: 0, y: 300 }); // add a state variable for the player's position
@@ -11,10 +12,23 @@ function Game() {
   const [activeSpells, setActiveSpells] = useState([]);
   const [health, setHealth] = useState(100);
   const [mana, setMana] = useState(120); // adjust the initial value as needed
+  const [level, setLevel] = useState(1);
+  const [experience, setExperience] = useState(0);
   const [manaPotions, setManaPotions] = useState(
     Array(3)
       .fill()
-      .map(() => ({ x: Math.random() * 1000, y: Math.random() * 1000 }))
+      .map(() => ({
+        x: Math.random() * window.innerWidth * 0.85,
+        y: Math.random() * window.innerHeight * 0.95,
+      }))
+  );
+  const [experienceBalls, setExperienceBalls] = useState(
+    Array(3)
+      .fill()
+      .map(() => ({
+        x: Math.random() * window.innerWidth * 0.85,
+        y: Math.random() * window.innerHeight * 0.95,
+      }))
   );
   const castSpell = () => {
     setMana((prevMana) => prevMana - 10);
@@ -24,6 +38,16 @@ function Game() {
       ...prevInventory,
       [item]: prevInventory[item] + 1,
     }));
+  };
+  const collectExperienceBall = () => {
+    setExperience((prevExperience) => {
+      const newExperience = prevExperience + 1;
+      if (newExperience >= 10) {
+        setLevel((prevLevel) => prevLevel + 1);
+        return newExperience % 10;
+      }
+      return newExperience;
+    });
   };
   const useItem = (item) => {
     if (item === "manaPotion" && inventory.manaPotion > 0 && mana < 120) {
@@ -36,12 +60,23 @@ function Game() {
   };
 
   useEffect(() => {
-    console.log("Player position:", playerPosition);
-    console.log("Potion positions:", manaPotions);
+    //console.log("Player position:", playerPosition);
+    //console.log("Potion positions:", manaPotions);
+    const intervalId = setInterval(() => {
+      setExperienceBalls((prevExperienceBalls) => [
+        ...prevExperienceBalls,
+        { x: Math.random() * 1000, y: Math.random() * 1000 },
+      ]);
+    }, 15000); // 10000 milliseconds = 10 seconds
     const collidedPotionIndex = manaPotions.findIndex(
       (potion) =>
         Math.abs(potion.x - 30 - playerPosition.x) < 75 &&
         Math.abs(potion.y - 30 - playerPosition.y) < 75
+    );
+    const collidedExperienceBallIndex = experienceBalls.findIndex(
+      (experienceBall) =>
+        Math.abs(experienceBall.x - 30 - playerPosition.x) < 75 &&
+        Math.abs(experienceBall.y - 30 - playerPosition.y) < 75
     );
 
     if (collidedPotionIndex !== -1) {
@@ -50,7 +85,17 @@ function Game() {
         manaPotions.filter((potion, index) => index !== collidedPotionIndex)
       );
     }
-  }, [playerPosition, manaPotions]);
+    if (collidedExperienceBallIndex !== -1) {
+      setExperienceBalls((prevExperienceBalls) =>
+        prevExperienceBalls.filter(
+          (_, index) => index !== collidedExperienceBallIndex
+        )
+      );
+      collectExperienceBall();
+    }
+    return () => clearInterval(intervalId);
+  }, [playerPosition, manaPotions, experienceBalls]);
+
   return (
     <div className="app">
       <div className="canvas">
@@ -64,8 +109,20 @@ function Game() {
             }}
           />
         ))}
+        {experienceBalls.map((experienceBall, index) => (
+          <ExperienceBall
+            key={index}
+            x={experienceBall.x}
+            y={experienceBall.y}
+          />
+        ))}
         <Inventory inventory={inventory} UseItem={useItem} />
-        <Stats health={health} mana={mana} className="stats" />
+        <Stats
+          health={health}
+          mana={mana}
+          level={level}
+          experience={experience}
+        />
 
         <Player
           className="player"
