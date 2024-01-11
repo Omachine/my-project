@@ -15,11 +15,13 @@
   background-color: blue;
 }
 
-.spell-button-grass {
+.spell-button-wind {
   background-color: green;
 }
 
-
+.spell-button-earth {
+  background-color: brown;
+}
 .random-circle {
   position: fixed;
   top: 50%;

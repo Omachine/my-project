@@ -12,6 +12,8 @@ import {
 } from 'firebase/firestore'
 
 export const ChatRoom = () => {
+  const [minimized, setMinimized] = useState(false)
+
   const [messages, setMessages] = useState([])
 
   // New message State
@@ -41,6 +43,7 @@ export const ChatRoom = () => {
   }, [])
 
   const onMessageSent = async () => {
+    if (newMessageText == '') return
     try {
       await addDoc(messagesRef, {
         text: newMessageText,
@@ -55,10 +58,20 @@ export const ChatRoom = () => {
   }
   return (
     <div className="chat-room">
+      <div className='minimize-btn'>
+        <input
+          type="checkbox"
+          id="minimize"
+          onChange={(e) => {
+            setMinimized(e.target.checked)
+          }}
+        />
+        <label htmlFor="minimize" className="minimize-btn">-</label>
+      </div>
       <div className="messages">
         <h2>Chat</h2>
         {messages.map((message) => (
-          <div>
+          <div className={minimized ? 'invisible' : null}>
             <p>
               <b>{message.user}:</b> {message.text}
             </p>

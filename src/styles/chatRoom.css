@@ -46,3 +46,22 @@
   cursor: pointer;
   background-color: gray;
 }
+
+.invisible {
+  display: none;
+}
+
+.minimize-btn {
+  background-color: red;
+}
+
+.minimize-btn label {
+  font-size: 5rem;
+  line-height: 0;
+  background-color: green;
+  float: right;
+}
+
+.minimize-btn input {
+  display: none;
+}
