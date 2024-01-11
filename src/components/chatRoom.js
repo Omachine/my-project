@@ -21,8 +21,7 @@ export const ChatRoom = () => {
   const [newMessageText, setNewMessageText] = useState('')
 
   const messagesRef = collection(db, 'messages')
-
-  const messageQuery = query(messagesRef, orderBy('sentAt'), limit(15))
+  const messageQuery = query(messagesRef, orderBy('sentAt', 'desc'), limit(12))
 
   const getMessages = async () => {
     // Read the data
@@ -33,7 +32,14 @@ export const ChatRoom = () => {
         ...doc.data(),
         id: doc.id,
       }))
-      setMessages(filteredData)
+      // Reverse the order
+      const mapReversed = filteredData
+        .slice(0)
+        .reverse()
+        .map((element) => {
+          return element
+        })
+      setMessages(mapReversed)
     } catch (error) {
       console.log(error)
     }
@@ -69,7 +75,7 @@ export const ChatRoom = () => {
         <h2>Chat</h2>
         <Auth />
         <div className="minimize">
-          <label htmlFor='minimize'>-</label>
+          <label htmlFor="minimize">-</label>
           <input
             type="checkbox"
             id="minimize"
@@ -96,7 +102,9 @@ export const ChatRoom = () => {
           value={newMessageText}
           onChange={(e) => setNewMessageText(e.target.value)}
         />
-        <button onClick={onMessageSent} className='btn'>Send</button>
+        <button onClick={onMessageSent} className="btn">
+          Send
+        </button>
       </div>
     </div>
   )
