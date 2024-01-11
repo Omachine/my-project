@@ -18,9 +18,19 @@ function Game() {
   const [manaPotions, setManaPotions] = useState(
     Array(3)
       .fill()
-      .map(() => ({ x: Math.random() * 1000, y: Math.random() * 1000 }))
+      .map(() => ({
+        x: Math.random() * window.innerWidth - 23,
+        y: Math.random() * window.innerHeight - 26,
+      }))
   );
-  const [experienceBalls, setExperienceBalls] = useState([]);
+  const [experienceBalls, setExperienceBalls] = useState(
+    Array(10)
+      .fill()
+      .map(() => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+      }))
+  );
   const castSpell = () => {
     setMana((prevMana) => prevMana - 10);
   };
@@ -56,9 +66,12 @@ function Game() {
     const intervalId = setInterval(() => {
       setExperienceBalls((prevExperienceBalls) => [
         ...prevExperienceBalls,
-        { x: Math.random() * 1000, y: Math.random() * 1000 },
+        {
+          x: Math.random() * window.innerWidth - 64,
+          y: Math.random() * window.innerHeight - 64,
+        },
       ]);
-    }, 15000); // 10000 milliseconds = 10 seconds
+    }, 15000); // 15000 milliseconds = 15 seconds
     const collidedPotionIndex = manaPotions.findIndex(
       (potion) =>
         Math.abs(potion.x - 30 - playerPosition.x) < 75 &&
