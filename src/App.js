@@ -10,7 +10,6 @@ export default function App() {
       <Game></Game>
       <div className='cool-bottom-left-div'>
         <ChatRoom />
-        <Auth />
       </div>
     </div>
   )
