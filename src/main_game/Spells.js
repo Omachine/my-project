@@ -21,8 +21,11 @@ function Spells({ mana, setMana, setActiveSpells, castSpell }) {
           onClick={() => {
             if (mana >= 10) {
               // check if there's enough mana to cast the spell
-              shootSpell(spell, spell.toLowerCase());
+
               setMana(mana - 10); // reduce the mana by 10
+              if (spell === "Fire") {
+                createFireBall();
+              }
             }
           }}
           onBlur={() => window.focus()}
