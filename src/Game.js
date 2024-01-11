@@ -5,6 +5,7 @@ import Inventory from "./main_game/Inventory";
 import Player from "./main_game/Player";
 import Stats from "./main_game/Stats";
 import ExperienceBall from "./ExperienceBall";
+import FireBall from './fireBall';
 
 function Game() {
   const [playerPosition, setPlayerPosition] = useState({ x: 0, y: 300 }); // add a state variable for the player's position
@@ -18,16 +19,16 @@ function Game() {
     Array(3)
       .fill()
       .map(() => ({
-        x: Math.random() * window.innerWidth * 0.85,
-        y: Math.random() * window.innerHeight * 0.95,
+        x: Math.random() * window.innerWidth - 23,
+        y: Math.random() * window.innerHeight - 26,
       }))
   );
   const [experienceBalls, setExperienceBalls] = useState(
-    Array(3)
+    Array(10)
       .fill()
       .map(() => ({
-        x: Math.random() * window.innerWidth * 0.85,
-        y: Math.random() * window.innerHeight * 0.95,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
       }))
   );
   const castSpell = () => {
@@ -65,9 +66,12 @@ function Game() {
     const intervalId = setInterval(() => {
       setExperienceBalls((prevExperienceBalls) => [
         ...prevExperienceBalls,
-        { x: Math.random() * 1000, y: Math.random() * 1000 },
+        {
+          x: Math.random() * window.innerWidth - 64,
+          y: Math.random() * window.innerHeight - 64,
+        },
       ]);
-    }, 15000); // 10000 milliseconds = 10 seconds
+    }, 15000); // 15000 milliseconds = 15 seconds
     const collidedPotionIndex = manaPotions.findIndex(
       (potion) =>
         Math.abs(potion.x - 30 - playerPosition.x) < 75 &&
@@ -138,6 +142,7 @@ function Game() {
         castSpell={castSpell}
       />
     </div>
+    
   );
 }
 

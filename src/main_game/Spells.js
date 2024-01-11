@@ -3,7 +3,7 @@ import "./Spells.css";
 
 function Spells({ mana, setMana, setActiveSpells, castSpell }) {
   // Destructure castSpell from the props object here
-  const spells = ["Fire", "Ice", "Wind", "Earth"];
+  const spells = ["Fire", "Ice", "Grass"];
 
   const shootSpell = (spell, color) => {
     const newSpell = { type: spell, color: color };
@@ -24,7 +24,7 @@ function Spells({ mana, setMana, setActiveSpells, castSpell }) {
 
               setMana(mana - 10); // reduce the mana by 10
               if (spell === "Fire") {
-                createFireBall();
+
               }
             }
           }}
@@ -38,3 +38,5 @@ function Spells({ mana, setMana, setActiveSpells, castSpell }) {
 }
 
 export default Spells;
+
+

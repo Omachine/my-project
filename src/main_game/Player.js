@@ -17,13 +17,13 @@ function Player({ position, setPosition }) {
           ...prevPosition,
           x: Math.min(prevPosition.x + 10, mapWidth - playerWidth),
         }));
-        setFacingRight(false);
+        setFacingRight(true);
       } else if (event.key === "ArrowLeft" || event.key === "a") {
         setPosition((prevPosition) => ({
           ...prevPosition,
           x: Math.max(prevPosition.x - 10, 0),
         }));
-        setFacingRight(true);
+        setFacingRight(false);
       } else if (event.key === "ArrowUp" || event.key === "w") {
         setPosition((prevPosition) => ({
           ...prevPosition,
@@ -61,7 +61,7 @@ function Player({ position, setPosition }) {
       }}
     >
       <img
-        src={process.env.PUBLIC_URL + "/Pixel-mage.gif"}
+        src={process.env.PUBLIC_URL + "/wizardgreen1.gif"}
         alt="Player avatar"
         style={{
           width: "128px",
