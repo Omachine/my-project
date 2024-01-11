@@ -5,7 +5,7 @@ import Inventory from "./main_game/Inventory";
 import Player from "./main_game/Player";
 import Stats from "./main_game/Stats";
 import ExperienceBall from "./ExperienceBall";
-import FireBall from './fireBall';
+import FireBall from "./fireBall";
 
 function Game() {
   const [playerPosition, setPlayerPosition] = useState({ x: 0, y: 300 }); // add a state variable for the player's position
@@ -19,7 +19,7 @@ function Game() {
     Array(3)
       .fill()
       .map(() => ({
-        x: Math.random() * window.innerWidth - 23,
+        x: Math.random() * window.innerWidth * 0.85 - 23,
         y: Math.random() * window.innerHeight - 26,
       }))
   );
@@ -67,7 +67,7 @@ function Game() {
       setExperienceBalls((prevExperienceBalls) => [
         ...prevExperienceBalls,
         {
-          x: Math.random() * window.innerWidth - 64,
+          x: Math.random() * (window.innerWidth * 0.85) - 64,
           y: Math.random() * window.innerHeight - 64,
         },
       ]);
@@ -142,7 +142,6 @@ function Game() {
         castSpell={castSpell}
       />
     </div>
-    
   );
 }
 
