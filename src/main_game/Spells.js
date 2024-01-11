@@ -24,7 +24,6 @@ function Spells({ mana, setMana, setActiveSpells, castSpell }) {
 
               setMana(mana - 10); // reduce the mana by 10
               if (spell === "Fire") {
-
               }
             }
           }}
@@ -38,5 +37,3 @@ function Spells({ mana, setMana, setActiveSpells, castSpell }) {
 }
 
 export default Spells;
-
-
