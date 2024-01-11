@@ -3,6 +3,10 @@ import React, { useEffect, useState } from "react";
 function Player({ position, setPosition }) {
   const [key, setKey] = useState(null);
   const [facingRight, setFacingRight] = useState(true);
+  const playerWidth = 128; // player width in pixels
+  const playerHeight = 128; // player height in pixels
+  const mapWidth = window.innerWidth * 0.85; // map width in pixels, 85% of the screen width
+  const mapHeight = window.innerHeight * 0.99; // map height in pixels
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -11,24 +15,24 @@ function Player({ position, setPosition }) {
       if (event.key === "ArrowRight" || event.key === "d") {
         setPosition((prevPosition) => ({
           ...prevPosition,
-          x: prevPosition.x + 10,
+          x: Math.min(prevPosition.x + 10, mapWidth - playerWidth),
         }));
         setFacingRight(false);
       } else if (event.key === "ArrowLeft" || event.key === "a") {
         setPosition((prevPosition) => ({
           ...prevPosition,
-          x: prevPosition.x - 10,
+          x: Math.max(prevPosition.x - 10, 0),
         }));
         setFacingRight(true);
       } else if (event.key === "ArrowUp" || event.key === "w") {
         setPosition((prevPosition) => ({
           ...prevPosition,
-          y: prevPosition.y - 10,
+          y: Math.max(prevPosition.y - 10, 0),
         }));
       } else if (event.key === "ArrowDown" || event.key === "s") {
         setPosition((prevPosition) => ({
           ...prevPosition,
-          y: prevPosition.y + 10,
+          y: Math.min(prevPosition.y + 10, mapHeight - playerHeight),
         }));
       }
     };
