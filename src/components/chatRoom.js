@@ -52,7 +52,10 @@ export const ChatRoom = () => {
       await addDoc(messagesRef, {
         text: newMessageText,
         sentAt: serverTimestamp(),
-        user: auth ? auth.currentUser.displayName : 'A random guy',
+        user:
+          auth.currentUser != null
+            ? auth.currentUser.displayName
+            : 'A random guy',
       })
       setNewMessageText('')
       getMessages()
@@ -62,18 +65,21 @@ export const ChatRoom = () => {
   }
   return (
     <div className="chat-room">
-      <div className="minimize-btn">
-        <input
-          type="checkbox"
-          id="minimize"
-          onChange={(e) => {
-            setMinimized(e.target.checked)
-          }}
-        />
-        <label htmlFor="minimize">-</label>
+      <div className="chat-header">
+        <h2>Chat</h2>
+        <Auth />
+        <div className="minimize">
+          <label htmlFor='minimize'>-</label>
+          <input
+            type="checkbox"
+            id="minimize"
+            onChange={(e) => {
+              setMinimized(e.target.checked)
+            }}
+          />
+        </div>
       </div>
-      <h2>Chat</h2>
-      <Auth />
+
       <div className={minimized ? 'invisible' : 'messages'}>
         {messages.map((message) => (
           <div>
@@ -90,7 +96,7 @@ export const ChatRoom = () => {
           value={newMessageText}
           onChange={(e) => setNewMessageText(e.target.value)}
         />
-        <button onClick={onMessageSent}>Send</button>
+        <button onClick={onMessageSent} className='btn'>Send</button>
       </div>
     </div>
   )

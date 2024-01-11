@@ -8,10 +8,9 @@ export default function App() {
   return (
     <div>
       <Game></Game>
-      <div className='cool-bottom-left-div'>
+      <div className="cool-bottom-left-div">
         <ChatRoom />
       </div>
     </div>
-    
   )
 }

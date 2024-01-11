@@ -3,11 +3,6 @@
   padding: 0;
 }
 
-.app {
-  display: flex;
-  justify-content: space-between;
-}
-
 .canvas {
   position: relative;
   width: 85%;
@@ -16,10 +11,18 @@
 }
 
 .cool-bottom-left-div {
-  display: flex;
-  justify-content: space-between;
   position: absolute;
   left: 0.8rem;
   bottom: 0.8rem;
-  width: 800px;
+}
+
+.btn {
+  border: none;
+  background-color: #eee;
+  border-radius: 0.3rem;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #ddd;
 }

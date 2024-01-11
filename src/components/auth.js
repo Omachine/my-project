@@ -18,15 +18,13 @@ export const Auth = () => {
     }
   }
 
-  return (
-    <div className="cool-div-idk-what-to-call">
-      <button className="btn" onClick={signIn}>
-        Sign in with Google
-      </button>
-
-      <button className="btn" onClick={logout}>
-        Logout
-      </button>
-    </div>
+  return auth.currentUser != null ? (
+    <button className="btn btn-auth" onClick={logout}>
+      Logout
+    </button>
+  ) : (
+    <button className="btn btn-auth" onClick={signIn}>
+      Sign in with Google
+    </button>
   )
 }
