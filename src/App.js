@@ -2,15 +2,28 @@ import './styles/App.css'
 import Game from './Game'
 import { ChatRoom } from './components/chatRoom'
 import { Auth, SignOut } from './components/auth'
+import { useState } from 'react'
+import { LeaderBoard } from './components/leaderboard'
 
 export default function App() {
-  // return <>{user ? <Game></Game> : <SignIn></SignIn>}</>
+  const [showleader, setShowleader] = useState(false)
+
   return (
     <div>
       <Game></Game>
       <div className="cool-bottom-left-div">
         <ChatRoom />
       </div>
+      <button
+        onClick={(e) => {
+          if (showleader) setShowleader(false)
+          else setShowleader(true)
+        }}
+        className="btn leaderboard-btn"
+      >
+        LeaderBoard
+      </button>
+      {showleader ? <LeaderBoard showleader={showleader} /> : <></>}
     </div>
   )
 }

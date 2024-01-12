@@ -1,0 +1,83 @@
+.leaderboard {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30rem;
+  font-family: sans-serif;
+  padding: 1rem;
+  background-color: #222;
+  color: #eee;
+  border-radius: 0.3rem;
+  box-shadow: 0 0 1rem 1rem rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.leaderboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.leaderboard-header {
+  display: flex;
+  margin-bottom: 0.8rem;
+}
+
+.leaderboard-header h2 {
+  margin: 0 auto;
+}
+
+.messages {
+  margin-bottom: 0.8rem;
+}
+
+.messages > div {
+  margin: 0.3rem 0;
+}
+
+.send-message {
+  width: 100%;
+  position: relative;
+}
+
+.send-message input {
+  border: none;
+  padding: 0.4rem 0.6rem;
+  width: 60%;
+  border-radius: 0.2rem;
+}
+
+.send-message button {
+  position: absolute;
+  right: 0;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  font-weight: bold;
+  border-radius: 0.2rem;
+}
+
+.send-message button:hover {
+  cursor: pointer;
+  background-color: #ddd;
+}
+
+.minimize label {
+  font-size: 3rem;
+  border-radius: 0.3rem;
+  float: right;
+  width: 2rem;
+  height: 2rem;
+  text-align: center;
+  line-height: 1.6rem;
+  background-color: #111;
+  cursor: pointer;
+}
+
+.minimize input {
+  display: none;
+}
+
+.invisible {
+  display: none;
+}
