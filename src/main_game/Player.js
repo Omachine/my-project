@@ -61,7 +61,7 @@ function Player({ position, setPosition }) {
       }}
     >
       <img
-        src={process.env.PUBLIC_URL + "/wizardgreen1.gif"}
+        src={process.env.PUBLIC_URL + "/wizardblue1.gif"}
         alt="Player avatar"
         style={{
           width: "128px",

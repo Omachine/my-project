@@ -7,7 +7,9 @@
   position: relative;
   width: 85%;
   height: 100vh;
-  background-color: lightblue;
+  background-image: url('https://i.imgur.com/nP5HPw4.jpeg');  
+  background-size: cover; 
+  background-repeat: no-repeat; 
 }
 
 .cool-bottom-left-div {
