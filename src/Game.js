@@ -94,13 +94,16 @@ function Game() {
       }));
     }else if (item === "speedPotion" && inventory.speedPotion > 0){
       setspeed(20);
+      setTimeout(() => {
+        setspeed(10)
+      }, 5000)
       setInventory((prevInventory) => ({
         ...prevInventory,
         speedPotion: prevInventory.speedPotion - 1,
       }));
     };
   }
-  
+
   const intervalId = setInterval(() => {
     setExperienceBalls((prevExperienceBalls) => {
       if (prevExperienceBalls.length < 15) {
