@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { SkinContext } from "../SkinContext";
 
-function Player({ position, setPosition }) {
+function Player({ position, setPosition, speed,setspeed }) {
   const [key, setKey] = useState(null);
   const [facingRight, setFacingRight] = useState(true);
   const playerWidth = 128; // player width in pixels
@@ -11,31 +11,33 @@ function Player({ position, setPosition }) {
   const mapHeight = window.innerHeight * 0.99; // map height in pixels
   const { currentSkin, setCurrentSkin } = React.useContext(SkinContext);
 
+
   useEffect(() => {
     const handleKeyDown = (event) => {
       setKey(event.key);
       // update player position based on key press
+      setspeed=(10);
       if (event.key === "ArrowRight" || event.key === "d") {
         setPosition((prevPosition) => ({
           ...prevPosition,
-          x: Math.min(prevPosition.x + 10, mapWidth - playerWidth),
+          x: Math.min(prevPosition.x + setspeed, mapWidth - playerWidth),
         }));
         setFacingRight(true);
       } else if (event.key === "ArrowLeft" || event.key === "a") {
         setPosition((prevPosition) => ({
           ...prevPosition,
-          x: Math.max(prevPosition.x - 10, 0),
+          x: Math.max(prevPosition.x - setspeed, 0),
         }));
         setFacingRight(false);
       } else if (event.key === "ArrowUp" || event.key === "w") {
         setPosition((prevPosition) => ({
           ...prevPosition,
-          y: Math.max(prevPosition.y - 10, 0),
+          y: Math.max(prevPosition.y - setspeed, 0),
         }));
       } else if (event.key === "ArrowDown" || event.key === "s") {
         setPosition((prevPosition) => ({
           ...prevPosition,
-          y: Math.min(prevPosition.y + 10, mapHeight - playerHeight),
+          y: Math.min(prevPosition.y + setspeed, mapHeight - playerHeight),
         }));
       }
     };

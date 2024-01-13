@@ -1,11 +1,12 @@
 // Stats.js
 import React from "react";
 
-function Stats({ health, mana, level, experience }) {
+function Stats({ health, mana,speed, level, experience }) {
   return (
     <div className="stats">
-      <div className="health">{health}</div>
-      <div className="mana">{mana}</div>
+      <p>Heath:{health}</p>
+      <p>Mana:{mana}</p>
+      <p>Speed:{speed}</p>
       <div className="level">Level: {level}</div>
       <div className="experience">Experience: {experience}/10</div>
     </div>

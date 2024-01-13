@@ -20,6 +20,7 @@ function Game() {
   const [mana, setMana] = useState(120); // adjust the initial value as needed
   const [level, setLevel] = useState(1);
   const [experience, setExperience] = useState(0);
+  const [speed, setspeed] = useState(10);
 
   const [manaPotions, setManaPotions] = useState(
     Array(2)
@@ -91,8 +92,30 @@ function Game() {
         ...prevInventory,
         manaPotion: prevInventory.manaPotion - 1,
       }));
-    }
-  };
+    }else if (item === "speedPotion" && inventory.speedPotion > 0){
+      setspeed(20);
+      setInventory((prevInventory) => ({
+        ...prevInventory,
+        speedPotion: prevInventory.speedPotion - 1,
+      }));
+    };
+  }
+  
+  const intervalId = setInterval(() => {
+    setExperienceBalls((prevExperienceBalls) => {
+      if (prevExperienceBalls.length < 15) {
+        return [
+          ...prevExperienceBalls,
+          {
+            x: Math.random() * (window.innerWidth * 0.85) - 64,
+            y: Math.random() * window.innerHeight - 64,
+          },
+        ];
+      } else {
+        return prevExperienceBalls;
+      }
+    });
+  }, 15000); // 15000 milliseconds = 15 seconds
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -213,6 +236,7 @@ function Game() {
         <Stats
           health={health}
           mana={mana}
+          speed={speed}
           level={level}
           experience={experience}
         />
