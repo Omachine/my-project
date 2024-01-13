@@ -1,19 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
+import { SkinContext } from "../SkinContext";
 import "./Spells.css";
 
-function Spells({ mana, setMana, setActiveSpells, castSpell }) {
-  // Destructure castSpell from the props object here
-  const spells = ["Fire", "Ice", "Grass"];
-
-  const shootSpell = (spell, color) => {
-    const newSpell = { type: spell, color: color };
-    setActiveSpells((prevSpells) => [...prevSpells, newSpell]);
-
-    castSpell();
-  };
+function Spells({ mana, setMana }) {
+  const spells = ["Fire", "Ice", "Grass"]; // Add more spells here
+  const { setCurrentSkin } = React.useContext(SkinContext);
 
   return (
-    <div className="spell-container">
+    <div className="spell-buttons">
       {spells.map((spell, index) => (
         <button
           key={index}
@@ -21,13 +15,16 @@ function Spells({ mana, setMana, setActiveSpells, castSpell }) {
           onClick={() => {
             if (mana >= 10) {
               // check if there's enough mana to cast the spell
-
               setMana(mana - 10); // reduce the mana by 10
               if (spell === "Fire") {
+                setCurrentSkin("wizardred1.gif");
+              } else if (spell === "Ice") {
+                setCurrentSkin("wizardblue1.gif");
+              } else if (spell === "Grass") {
+                setCurrentSkin("wizardgreen1.gif");
               }
             }
           }}
-          onBlur={() => window.focus()}
         >
           {spell}
         </button>

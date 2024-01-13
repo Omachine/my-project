@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import { SkinContext } from "../SkinContext";
+
 function Player({ position, setPosition }) {
   const [key, setKey] = useState(null);
   const [facingRight, setFacingRight] = useState(true);
@@ -7,6 +9,7 @@ function Player({ position, setPosition }) {
   const playerHeight = 128; // player height in pixels
   const mapWidth = window.innerWidth * 0.85; // map width in pixels, 85% of the screen width
   const mapHeight = window.innerHeight * 0.99; // map height in pixels
+  const { currentSkin, setCurrentSkin } = React.useContext(SkinContext);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -48,7 +51,7 @@ function Player({ position, setPosition }) {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [setPosition]);
+  }, [mapHeight, mapWidth, setPosition]);
 
   return (
     <div
@@ -61,7 +64,7 @@ function Player({ position, setPosition }) {
       }}
     >
       <img
-        src={process.env.PUBLIC_URL + "/wizardblue1.gif"}
+        src={process.env.PUBLIC_URL + "/" + currentSkin}
         alt="Player avatar"
         style={{
           width: "128px",

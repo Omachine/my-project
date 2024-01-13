@@ -8,16 +8,19 @@ import Player from "./main_game/Player";
 import Stats from "./main_game/Stats";
 import ExperienceBall from "./ExperienceBall";
 
-
 function Game() {
   const [playerPosition, setPlayerPosition] = useState({ x: 0, y: 300 }); // add a state variable for the player's position
-  const [inventory, setInventory] = useState({ manaPotion: 0 });
+  const [inventory, setInventory] = useState({
+    manaPotion: 0,
+    speedPotion: 0,
+    powerPotion: 0,
+  });
   const [activeSpells, setActiveSpells] = useState([]);
   const [health, setHealth] = useState(100);
   const [mana, setMana] = useState(120); // adjust the initial value as needed
   const [level, setLevel] = useState(1);
   const [experience, setExperience] = useState(0);
-  
+
   const [manaPotions, setManaPotions] = useState(
     Array(2)
       .fill()
@@ -49,18 +52,27 @@ function Game() {
     Array(10)
       .fill()
       .map(() => ({
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
+        x: Math.random() * (window.innerWidth * 0.85) - 64,
+        y: Math.random() * window.innerHeight - 64,
       }))
   );
   const castSpell = () => {
-    setMana((prevMana) => prevMana - 10)
+    setMana((prevMana) => prevMana - 10);
   };
   const collectItem = (item) => {
-    setInventory((prevInventory) => ({
-      ...prevInventory,
-      [item.type]: (prevInventory[item.type] || 0) + 1,
-    }));
+    console.log("collectItem called with item:", item);
+    setInventory((prevInventory) => {
+      const newInventory = { ...prevInventory };
+      if (item.type === "mana") {
+        newInventory.manaPotion = (prevInventory.manaPotion || 0) + 1;
+      } else if (item.type === "speed") {
+        newInventory.speedPotion = (prevInventory.speedPotion || 0) + 1;
+      } else if (item.type === "power") {
+        newInventory.powerPotion = (prevInventory.powerPotion || 0) + 1;
+      }
+      console.log("newInventory:", newInventory);
+      return newInventory;
+    });
   };
   const collectExperienceBall = () => {
     setExperience((prevExperience) => {
@@ -77,22 +89,27 @@ function Game() {
       setMana(120); // set mana back to 120
       setInventory((prevInventory) => ({
         ...prevInventory,
-        manaPotion: prevInventory.manaPotion - 1, // decrease the number of mana potions
+        manaPotion: prevInventory.manaPotion - 1,
       }));
     }
   };
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setExperienceBalls((prevExperienceBalls) => [
-        ...prevExperienceBalls,
-        {
-          x: Math.random() * (window.innerWidth * 0.85) - 64,
-          y: Math.random() * window.innerHeight - 64,
-        },
-      ]);
-    }, 15000);
-  
+      setExperienceBalls((prevExperienceBalls) => {
+        if (prevExperienceBalls.length < 15) {
+          return [
+            ...prevExperienceBalls,
+            {
+              x: Math.random() * (window.innerWidth * 0.85) - 64,
+              y: Math.random() * window.innerHeight - 64,
+            },
+          ];
+        } else {
+          return prevExperienceBalls;
+        }
+      });
+    }, 15000); // 15000 milliseconds = 15 seconds
     const handlePotionCollision = (potionList, type) => {
       const collidedPotionIndex = potionList.findIndex(
         (potion) =>
@@ -100,7 +117,7 @@ function Game() {
           Math.abs(potion.x - 30 - playerPosition.x) < 75 &&
           Math.abs(potion.y - 30 - playerPosition.y) < 75
       );
-  
+
       if (collidedPotionIndex !== -1) {
         collectItem(potionList[collidedPotionIndex]);
         potionList.splice(collidedPotionIndex, 1);
@@ -108,14 +125,14 @@ function Game() {
       }
       return false;
     };
-  
+
     const handleExperienceBallCollision = () => {
       const collidedExperienceBallIndex = experienceBalls.findIndex(
         (experienceBall) =>
           Math.abs(experienceBall.x - 30 - playerPosition.x) < 75 &&
           Math.abs(experienceBall.y - 30 - playerPosition.y) < 75
       );
-  
+
       if (collidedExperienceBallIndex !== -1) {
         setExperienceBalls((prevExperienceBalls) =>
           prevExperienceBalls.filter(
@@ -125,26 +142,32 @@ function Game() {
         collectExperienceBall();
       }
     };
-  
+
     const handlePotionCollisions = () => {
       if (handlePotionCollision(manaPotions, "mana")) {
         setManaPotions([...manaPotions]); // Force re-render
       }
-  
+
       if (handlePotionCollision(powerPotions, "power")) {
         setPowerPotions([...powerPotions]); // Force re-render
       }
-  
+
       if (handlePotionCollision(speedPotions, "speed")) {
         setSpeedPotions([...speedPotions]); // Force re-render
       }
     };
-  
+
     handlePotionCollisions();
     handleExperienceBallCollision();
-  
+
     return () => clearInterval(intervalId);
-  }, [playerPosition, manaPotions, powerPotions, speedPotions, experienceBalls]);
+  }, [
+    playerPosition,
+    manaPotions,
+    powerPotions,
+    speedPotions,
+    experienceBalls,
+  ]);
 
   return (
     <div className="app">
@@ -207,7 +230,6 @@ function Game() {
         setMana={setMana}
         castSpell={castSpell}
       />
-      
     </div>
   );
 }

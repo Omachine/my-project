@@ -5,9 +5,9 @@ function Inventory({ inventory, UseItem }) {
     <div className="inventory">
       <p>Mana Potions: {inventory.manaPotion}</p>
       <button onClick={() => UseItem("manaPotion")}>Use Mana Potion</button>
-      <p>Speed Potions: {inventory.manaPotion}</p>
+      <p>Speed Potions: {inventory.speedPotion}</p>
       <button onClick={() => UseItem("speedPotion")}>Use Speed Potion</button>
-      <p>Power Potions: {inventory.manaPotion}</p>
+      <p>Power Potions: {inventory.powerPotion}</p>
       <button onClick={() => UseItem("powerPotion")}>Use Power Potion</button>
     </div>
   );
